@@ -14,18 +14,19 @@ const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, 'public/html')));
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'landing.html'));
+    res.sendFile(path.join(__dirname, 'public', 'html', 'characters.html'));
 });
 
 // Route to fetch Waifu.it API
 app.get('/goto', async (req, res) => {
-    const url = "https://waifu.it/api/v4/angry"; // specify endpoint and version
+    const url = "https://waifu.it/api/v4/happy"; // specify endpoint and version
     try {
         const { data } = await axios.get(url, {
             headers: {
                 Authorization: process.env.WAIFU_TOKEN // store token in .env
             }
         });
+        console.log(data);
         res.json(data); // send JSON to client
     } catch (err) {
         res.status(500).json({ error: err.message });
