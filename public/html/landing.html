@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waifu Collection ♡</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            background: #fef6f8;
+            color: #2d2d2d;
+            line-height: 1.6;
+        }
+
+        /* Pastel blobs */
+        .blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .blob1 {
+            width: 500px;
+            height: 500px;
+            background: #ffc1e0;
+            top: -200px;
+            right: -200px;
+            animation: blob1 25s ease-in-out infinite;
+        }
+
+        .blob2 {
+            width: 400px;
+            height: 400px;
+            background: #c7ceea;
+            bottom: -150px;
+            left: -150px;
+            animation: blob2 20s ease-in-out infinite;
+        }
+
+        .blob3 {
+            width: 350px;
+            height: 350px;
+            background: #ffd4a3;
+            top: 40%;
+            left: 50%;
+            animation: blob3 22s ease-in-out infinite;
+        }
+
+        @keyframes blob1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        @keyframes blob2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(50px, 50px) scale(1.2); }
+        }
+
+        @keyframes blob3 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-30px, 30px) scale(0.8); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        h1 {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 800;
+            color: #ff8fab;
+            margin-bottom: 1rem;
+            letter-spacing: -2px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #6b6b6b;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        /* Character cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 3rem;
+            margin-bottom: 5rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #ff8fab, #c7ceea, #ffd4a3);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-image {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            background: linear-gradient(135deg, #fef6f8 0%, #fff 100%);
+            transition: transform 0.4s ease;
+        }
+
+        .card:hover .card-image {
+            transform: scale(1.1);
+        }
+
+        .card-content {
+            padding: 2rem;
+        }
+
+        .card-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2d2d2d;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-tag {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: #fff0f5;
+            color: #ff8fab;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+        }
+
+        .card-description {
+            color: #6b6b6b;
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: white;
+            border-radius: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+            margin-bottom: 5rem;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2d2d2d;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-text {
+            font-size: 1.2rem;
+            color: #6b6b6b;
+            margin-bottom: 2.5rem;
+        }
+
+        .cta-button {
+            font-family: 'Raleway', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 1.3rem 3.5rem;
+            background: linear-gradient(135deg, #ff8fab, #ffa5c3);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 143, 171, 0.3);
+            letter-spacing: 1px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 143, 171, 0.5);
+            background: linear-gradient(135deg, #ffa5c3, #ff8fab);
+        }
+
+        /* Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2d2d2d;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-text {
+            color: #6b6b6b;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 3rem;
+            }
+
+            .cta-section {
+                padding: 3rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+
+    <div class="container">
+        <header>
+            <h1>Your Waifu Awaits</h1>
+            <p class="subtitle">Discover the perfect companion for your journey</p>
+        </header>
+
+        <div class="cards">
+            <div class="card">
+                <div class="card-image">🌸</div>
+                <div class="card-content">
+                    <h3 class="card-title">Sakura</h3>
+                    <span class="card-tag">Sweet Soul</span>
+                    <p class="card-description">A gentle spirit with a heart of gold. She brings warmth and kindness to every moment.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-image">⚡</div>
+                <div class="card-content">
+                    <h3 class="card-title">Akira</h3>
+                    <span class="card-tag">Bold Heart</span>
+                    <p class="card-description">Fierce and unstoppable, she faces every challenge with courage and determination.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-image">🌙</div>
+                <div class="card-content">
+                    <h3 class="card-title">Luna</h3>
+                    <span class="card-tag">Mysterious Aura</span>
+                    <p class="card-description">Elegant and enigmatic, she captivates with her grace and timeless beauty.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2 class="cta-title">Begin Your Story</h2>
+            <p class="cta-text">Join thousands who have found their perfect match</p>
+            <button class="cta-button">Get Started Today</button>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">✨</div>
+                <h4 class="feature-title">Premium Quality</h4>
+                <p class="feature-text">Carefully curated collection</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🎨</div>
+                <h4 class="feature-title">Beautiful Design</h4>
+                <p class="feature-text">Stunning artwork and details</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">💝</div>
+                <h4 class="feature-title">Made with Love</h4>
+                <p class="feature-text">Crafted for true fans</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🌟</div>
+                <h4 class="feature-title">Always Fresh</h4>
+                <p class="feature-text">New additions weekly</p>
+            </div>
+        </div>
+
+        <footer>
+            © 2024 Waifu Collection. Created with ♡
+        </footer>
+    </div>
+</body>
+</html>

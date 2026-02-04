@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Waifu.it Demo</title>
+</head>
+<body>
+<button onclick="emoji()">Show Angry Waifu</button>
+<div id="result"></div>
+
+<script>
+async function emoji() {
+    const result = document.getElementById("result");
+    try {
+        const response = await fetch('/goto');
+        if (!response.ok) throw new Error("Failed to fetch data");
+        result.innerHTML = `
+            <img src="${data.url}" alt="waifu" width="200" 
+                 onerror="this.src='https://via.placeholder.com/200?text=No+Image'">
+        `;
+    } catch (err) {
+        result.innerHTML = `<p style="color:red">${err.message}</p>`;
+    }
+}
+</script>
+</body>
+</html>
