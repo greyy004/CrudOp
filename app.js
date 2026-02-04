@@ -17,9 +17,9 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'characters.html'));
 });
 
-// Route to fetch Waifu.it API
-app.get('/goto', async (req, res) => {
-    const url = "https://waifu.it/api/v4/happy"; // specify endpoint and version
+app.get('/emoji', async (req, res) => {
+    const emotion = req.query.emotion;
+    const url = `https://waifu.it/api/v4/${emotion}`; // specify endpoint and version
     try {
         const { data } = await axios.get(url, {
             headers: {
@@ -32,5 +32,7 @@ app.get('/goto', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+
+
 
 app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));

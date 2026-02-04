@@ -6,23 +6,30 @@
 <title>Waifu.it Demo</title>
 </head>
 <body>
-<button onclick="emoji()">Show Angry Waifu</button>
+<label for="moods">Choose your mood:</label>
+<select name="moods" id="moods">
+  <option value="happy">happy</option>
+  <option value="sad">sad</option>
+  <option value="angry">angry</option>
+</select>
+<button onclick="emoji()">Show Waifu</button>
 <div id="result"></div>
 
 <script>
 async function emoji() {
+    const mood = document.getElementById("moods").value; 
     const result = document.getElementById("result");
+
     try {
-        const response = await fetch('/goto');
+        const response = await fetch(`/emoji/?emotion=${mood}`);
         if (!response.ok) throw new Error("Failed to fetch data");
 
         const data = await response.json(); 
 
-    
+        const url = data.url;
 
         result.innerHTML = `
-            <img src="${data.url}" alt="waifu" width="200" 
-                 onerror="this.src='https://via.placeholder.com/200?text=No+Image'">
+            <img src="${url}" alt="waifu" width="200">
         `;
     } catch (err) {
         result.innerHTML = `<p style="color:red">${err.message}</p>`;
