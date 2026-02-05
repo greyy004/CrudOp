@@ -4,35 +4,360 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Waifu.it Demo</title>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #ffd1dc 0%, #e0c3fc 50%, #d4f1f4 100%);
+        min-height: 100vh;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 30px;
+        box-shadow: 0 20px 60px rgba(255, 182, 193, 0.3);
+        max-width: 900px;
+        width: 100%;
+        padding: 40px;
+        backdrop-filter: blur(10px);
+        border: 3px solid rgba(255, 192, 203, 0.3);
+    }
+
+    h1 {
+        text-align: center;
+        background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #ffdde1 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 10px;
+        font-size: 2.5em;
+        text-shadow: 2px 2px 4px rgba(255, 182, 193, 0.2);
+        font-weight: 800;
+    }
+
+    .subtitle {
+        text-align: center;
+        color: #b794f6;
+        margin-bottom: 40px;
+        font-size: 1.1em;
+        font-weight: 500;
+    }
+
+    .controls {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+
+    label {
+        font-weight: 600;
+        color: #ff9a9e;
+        font-size: 1.1em;
+    }
+
+    select {
+        padding: 12px 20px;
+        border: 2px solid #ffb3d9;
+        border-radius: 15px;
+        font-size: 16px;
+        background: #fff5f8;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        outline: none;
+        min-width: 150px;
+        color: #ff9a9e;
+        font-weight: 500;
+    }
+
+    select:hover {
+        border-color: #ffa0c9;
+        box-shadow: 0 4px 12px rgba(255, 179, 217, 0.4);
+        background: white;
+    }
+
+    select:focus {
+        border-color: #ff9a9e;
+        box-shadow: 0 0 0 3px rgba(255, 179, 217, 0.2);
+    }
+
+    button {
+        padding: 12px 30px;
+        border: none;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: white;
+        box-shadow: 0 4px 15px rgba(255, 179, 217, 0.3);
+    }
+
+    button:nth-of-type(1) {
+        background: linear-gradient(135deg, #ffa0c9 0%, #ffb3d9 100%);
+    }
+
+    button:nth-of-type(2) {
+        background: linear-gradient(135deg, #d4a5ff 0%, #e0c3fc 100%);
+    }
+
+    button:nth-of-type(3) {
+        background: linear-gradient(135deg, #ffd4a3 0%, #ffcccb 100%);
+    }
+
+    button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 179, 217, 0.5);
+    }
+
+    button:active {
+        transform: translateY(0);
+    }
+
+    .results-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-top: 30px;
+    }
+
+    .result-card {
+        background: linear-gradient(135deg, #fff5f8 0%, #f5f0ff 100%);
+        border-radius: 20px;
+        padding: 25px;
+        box-shadow: 0 10px 30px rgba(255, 179, 217, 0.2);
+        transition: all 0.3s ease;
+        min-height: 280px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        border: 2px solid rgba(255, 192, 203, 0.3);
+    }
+
+    .result-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(255, 179, 217, 0.3);
+    }
+
+    .result-card h3 {
+        color: #ff9a9e;
+        margin-bottom: 15px;
+        font-size: 1.3em;
+        text-align: center;
+        font-weight: 700;
+    }
+
+    #result img,
+    #result-waifu img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(255, 179, 217, 0.3);
+        margin-top: 10px;
+        border: 3px solid rgba(255, 192, 203, 0.2);
+    }
+
+    #result-waifu .waifu-name {
+        font-size: 1.2em;
+        color: #ff9a9e;
+        margin-bottom: 10px;
+        text-align: center;
+        font-weight: 700;
+        background: none;
+        -webkit-text-fill-color: #ff9a9e;
+        text-shadow: none;
+    }
+
+    #resultQuote h2 {
+        color: #9575cd;
+        font-style: italic;
+        margin-bottom: 15px;
+        line-height: 1.6;
+        font-size: 1.1em;
+        text-align: center;
+    }
+
+    #resultQuote p {
+        color: #b794f6;
+        margin: 8px 0;
+        text-align: center;
+    }
+
+    #resultQuote p:first-of-type {
+        font-weight: 600;
+        color: #ff9a9e;
+        font-size: 1.1em;
+    }
+
+    #resultQuote p:last-of-type {
+        font-style: italic;
+        color: #d4a5ff;
+    }
+
+    .error {
+        color: #ff6b9d;
+        font-weight: 600;
+        text-align: center;
+        padding: 15px;
+        background: rgba(255, 192, 203, 0.2);
+        border-radius: 15px;
+        border: 2px solid #ffb3d9;
+    }
+
+    .loading {
+        text-align: center;
+        color: #ff9a9e;
+        font-size: 1.1em;
+        padding: 20px;
+    }
+
+    .loading::after {
+        content: '...';
+        animation: dots 1.5s steps(4, end) infinite;
+    }
+
+    @keyframes dots {
+        0%, 20% { content: '.'; }
+        40% { content: '..'; }
+        60%, 100% { content: '...'; }
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            padding: 25px;
+        }
+
+        h1 {
+            font-size: 2em;
+        }
+
+        .controls {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        select, button {
+            width: 100%;
+        }
+
+        .results-container {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
 </head>
 <body>
-<label for="moods">Choose your mood:</label>
-<select name="moods" id="moods">
-  <option value="happy">happy</option>
-  <option value="sad">sad</option>
-  <option value="angry">angry</option>
-</select>
-<button onclick="emoji()">Show Waifu</button>
-<div id="result"></div>
+<div class="container">
+    <h1>🌸 Waifu.it Demo 🌸</h1>
+    <p class="subtitle">Discover anime mood GIFs, characters, and inspiring quotes</p>
+    
+    <div class="controls">
+        <label for="moods">Choose your mood:</label>
+        <select name="moods" id="moods">
+            <option value="happy">😊 Happy</option>
+            <option value="sad">😢 Sad</option>
+            <option value="angry">😠 Angry</option>
+        </select>
+        <button onclick="getMoodGif()">Show Waifu</button>
+        <button onclick="getQuote()">Get Quote</button>
+        <button onclick="getWaifu()">Get Character</button>
+    </div>
+
+    <div class="results-container">
+        <div class="result-card">
+            <h3>Waifu Mood</h3>
+            <div id="result"></div>
+        </div>
+        <div class="result-card">
+            <h3>Anime Character</h3>
+            <div id="result-waifu"></div>
+        </div>
+        <div class="result-card">
+            <h3>Anime Quote</h3>
+            <div id="resultQuote"></div>
+        </div>
+    </div>
+</div>
 
 <script>
-async function emoji() {
+async function getMoodGif() {
     const mood = document.getElementById("moods").value; 
     const result = document.getElementById("result");
 
+    result.innerHTML = '<p class="loading">Loading</p>';
+
     try {
-        const response = await fetch(`/emoji/?emotion=${mood}`);
+        const response = await fetch(`/mood/?emotion=${mood}`);
         if (!response.ok) throw new Error("Failed to fetch data");
 
         const data = await response.json(); 
-
         const url = data.url;
 
         result.innerHTML = `
-            <img src="${url}" alt="waifu" width="200">
+            <img src="${url}" alt="${mood} waifu" width="200">
         `;
     } catch (err) {
-        result.innerHTML = `<p style="color:red">${err.message}</p>`;
+        result.innerHTML = `<p class="error">${err.message}</p>`;
+    }
+}
+
+async function getQuote(){
+    const resultQuote = document.getElementById("resultQuote");
+    
+    resultQuote.innerHTML = '<p class="loading">Loading</p>';
+
+    try {
+        const response = await fetch('/quotes');
+        if(!response.ok) {
+            throw new Error("Failed to fetch data");
+        }
+        const data = await response.json();
+
+        const quote = data.quote;
+        const author = data.author;
+        const anime = data.anime;
+        
+        resultQuote.innerHTML = `
+            <h2>"${quote}"</h2>
+            <p>${anime}</p>
+            <p>— ${author}</p>
+        `;
+    } catch(err) {
+        resultQuote.innerHTML = `<p class="error">${err.message}</p>`;
+    }
+}
+
+async function getWaifu(){
+    const result_waifu = document.getElementById("result-waifu");
+    
+    result_waifu.innerHTML = '<p class="loading">Loading</p>';
+    
+    try {
+        const response = await fetch('/waifu');
+        if(!response.ok) {
+            throw new Error("Failed to fetch data");
+        }
+        const data = await response.json();
+        const full = data.name.full;
+        const coverImage = data.image.large;
+        result_waifu.innerHTML = `
+            <div class="waifu-name">${full}</div>
+            <img src="${coverImage}" alt="${full} character" width="200">
+        `;
+    } catch(err) {
+        result_waifu.innerHTML = `<p class="error">${err.message}</p>`;
     }
 }
 </script>
